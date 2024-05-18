@@ -1,12 +1,16 @@
+import BlogCard from "@/components/ui/BlogCard";
 import { Blog } from "@/types";
-import LatestBlogCard from "../ui/LatestBlogCard";
 
-const LatestBlog = ({ blogs }: { blogs: Blog[] }) => {
+const Blogpage = async () => {
+  const res = await fetch("http://localhost:5000/blogs", {
+    cache: "no-store",
+  });
+  const blogs = await res.json();
   return (
-    <div>
+    <div className="w-[90%] mx-auto">
       <div className="my-12">
         <h1 className="text-4xl font-bold text-center text-accent ">
-          Latest Blog
+          All Blogs from blogiz
         </h1>
         <p className="text-center font-xl w-10/12 mx-auto text-xl mt-9">
           A blog, short for weblog, is a frequently updated web page used for
@@ -15,13 +19,12 @@ const LatestBlog = ({ blogs }: { blogs: Blog[] }) => {
           readers can leave comments.
         </p>
       </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        {blogs.slice(0, 2).map((blog) => (
-          <LatestBlogCard key={blog.id} blog={blog} />
+      <div className="grid grid-cols-3 gap-4">
+        {blogs.map((blog: Blog) => (
+          <BlogCard key={blog.id} blog={blog} />
         ))}
       </div>
     </div>
   );
 };
-export default LatestBlog;
+export default Blogpage;
